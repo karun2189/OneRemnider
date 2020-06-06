@@ -1,0 +1,59 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.onereminder"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.kotlin.stdlib
+    implementation deps.kotlin.anko
+
+    implementation deps.support.core_ktx
+    implementation deps.support.app_compat
+    implementation deps.support.multidex
+    implementation deps.support.design
+    implementation deps.support.recyclerview
+    implementation deps.support.annotations
+    implementation deps.support.swipe_refresh_layout
+
+    implementation deps.lifecycle.extension
+    implementation deps.navigation.ui_ktx
+    implementation deps.constraint_layout
+
+    implementation deps.navigation.ui_ktx
+    implementation deps.navigation.fragment_ktx
+
+    // Image Cache
+    kapt deps.glide.compiler
+    implementation deps.glide.runtime
+
+    implementation deps.ui_library.sp
+    implementation deps.ui_library.dp
+
+    // Architecture Components
+    implementation deps.room.ktx
+    implementation deps.room.runtime
+    kapt deps.room.compiler
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="categories_bg_color">
+        <item>#00549E</item>
+        <item>#F56E45</item>
+        <item>#C40F59</item>
+        <item>#641CE1</item>
+        <item>#E8BA2B</item>
+        <item>#0096A8</item>
+        <item>#8601AF</item>
+        <item>#BA1A12</item>
+        <item>#BAC28A</item>
+    </array>
+</resources>

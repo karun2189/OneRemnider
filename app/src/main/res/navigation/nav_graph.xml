@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/categoriesFragment">
+
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="com.onereminder.ui.categories.CategoriesFragment"
+        android:label="CategoriesFragment">
+        <action
+            android:id="@+id/action_categoriesFragment_to_reminderListFragment"
+            app:destination="@id/reminderListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/reminderListFragment"
+        android:name="com.onereminder.ui.reminderlist.ReminderListFragment"
+        android:label="ReminderListFragment">
+        <action
+            android:id="@+id/action_reminderListFragment_to_detailReminderFragment"
+            app:destination="@id/detailReminderFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailReminderFragment"
+        android:name="com.onereminder.ui.DetailReminderFragment"
+        android:label="DetailReminderFragment" />
+</navigation>
