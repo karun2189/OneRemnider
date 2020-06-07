@@ -25,5 +25,9 @@
     <fragment
         android:id="@+id/detailReminderFragment"
         android:name="com.onereminder.ui.DetailReminderFragment"
-        android:label="DetailReminderFragment" />
+        android:label="DetailReminderFragment" >
+        <action
+            android:id="@+id/action_detailReminderFragment_to_reminderListFragment"
+            app:destination="@id/reminderListFragment" />
+    </fragment>
 </navigation>

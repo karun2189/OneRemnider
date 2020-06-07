@@ -4,16 +4,10 @@ import android.content.Context
 import com.onereminder.R
 import com.onereminder.core.OneReminderApplication
 import com.onereminder.db.core.Utils.R_CALL
-import com.onereminder.db.core.Utils.R_EMAIL
-import com.onereminder.db.core.Utils.R_EMI
-import com.onereminder.db.core.Utils.R_EVENT
-import com.onereminder.db.core.Utils.R_MEDICINE
-import com.onereminder.db.core.Utils.R_TASK
 import com.onereminder.db.entity.Call
 import com.onereminder.db.entity.Categories
 import com.onereminder.db.entity.Reminder
 import com.onereminder.db.helper.ReminderListHelper
-import com.onereminder.reminder.ReminderManager
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.doAsyncResult
 import org.jetbrains.annotations.NotNull
@@ -38,7 +32,7 @@ class DbHelper(private val mContext: Context) {
                             R_CALL -> {
                                 R.drawable.ic_call
                             }
-                            R_EMAIL -> {
+                            /*R_EMAIL -> {
                                 R.drawable.ic_email
                             }
                             R_EVENT -> {
@@ -52,7 +46,7 @@ class DbHelper(private val mContext: Context) {
                             }
                             R_TASK -> {
                                 R.drawable.ic_task
-                            }
+                            }*/
                             else -> {
                                 R.drawable.ic_launcher_background
                             }
@@ -71,8 +65,8 @@ class DbHelper(private val mContext: Context) {
         doAsyncResult { mDataBase.categoriesDao.getAllCategories() }.get()
 
 
-    fun insertOrUpdateReminder(@NotNull obj: Any) {
-        doAsync {
+    fun insertOrUpdateReminder(@NotNull obj: Any): Reminder? {
+        return doAsyncResult {
             when (obj) {
                 is Call -> {
                     mDataBase.callDao.insertOrUpdate(obj).let { id ->
@@ -80,13 +74,14 @@ class DbHelper(private val mContext: Context) {
                             reminder.type = R_CALL
                             reminder.typeId = id
                             mDataBase.reminderDao.insertOrUpdate(reminder)
-                            // To Set  Reminder
-                            ReminderManager(mContext).setReminder(reminder)
+                            reminder
                         }
                     }
                 }
+
+                else -> null
             }
-        }
+        }.get()
     }
 
     fun getReminderById(id: Long): Reminder? =

@@ -5,13 +5,18 @@ import android.app.DatePickerDialog.OnDateSetListener
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
+import android.widget.Toast
+import androidx.navigation.findNavController
 import com.onereminder.R
 import com.onereminder.core.BaseFragment
 import com.onereminder.core.OneReminderApplication
+import com.onereminder.core.OneReminderApplication.Companion.mContext
 import com.onereminder.db.core.DbHelper
 import com.onereminder.db.entity.Call
 import com.onereminder.db.entity.Reminder
+import com.onereminder.reminder.ReminderManager
 import kotlinx.android.synthetic.main.add_reminder_fragment.*
 import java.util.*
 
@@ -26,15 +31,33 @@ class DetailReminderFragment : BaseFragment(R.layout.add_reminder_fragment) {
         }
 
         addReminder?.setOnClickListener {
+            val name = nameET.text.toString()
+            val phoneNumber = phoneNumberET.text.toString()
+            if (TextUtils.isEmpty(name)) {
+                Toast.makeText(mContext, "Name must not be empty", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
+            if (TextUtils.isEmpty(phoneNumber)) {
+                Toast.makeText(mContext, "Phone number must not be empty", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
             Call().apply {
-                this.name = "Arun"
-                this.phoneNumber = "9876543210"
+                this.name = nameET.text.toString()
+                this.phoneNumber = phoneNumberET.text.toString()
                 this.mReminder = Reminder().apply {
                     this.reminderTime = mSelectedCalendar.time
                     this.title = "Call to"
                     this.description = "Important"
                 }
-                DbHelper(requireContext()).insertOrUpdateReminder(this)
+                DbHelper(requireContext()).insertOrUpdateReminder(this)?.let {
+                    ReminderManager(requireContext()).setReminder(it)
+                    view.findNavController()
+                        .navigate(R.id.action_detailReminderFragment_to_reminderListFragment)
+                } ?: let {
+                    Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }

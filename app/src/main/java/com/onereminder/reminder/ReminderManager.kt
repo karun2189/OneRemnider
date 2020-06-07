@@ -3,6 +3,7 @@ package com.onereminder.reminder
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
 import com.onereminder.db.entity.Reminder
 import java.util.*
 
@@ -20,6 +21,7 @@ class ReminderManager(private val mContext: Context?) : BaseReminder(mContext) {
                         cancelScheduledReminder(reminderId)
                     }
                     setReminder(reminderId, it.id, fromCalendar)
+                    Toast.makeText(mContext, "Reminder added successfully", Toast.LENGTH_LONG).show()
                 }
             }
         }
